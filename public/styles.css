@@ -1,0 +1,77 @@
+
+
+body {
+  background-color: #100e17;
+  font-family: 'Open Sans', sans-serif;
+  --ancho-contenedor: 500px;
+  --ancho-card: 120px;
+}
+
+.container1 {
+  border:1px solid red;
+  top: 60px;
+  left: calc(50% - calc(var(--ancho-contenedor) / 2));
+}
+.container2 {
+  border:1px solid red;
+  top: 260px;
+  left: calc(50% - calc(var(--ancho-contenedor) / 2));
+}
+.container1, .container2, .container3, .container4 {
+  position: absolute;
+  height: 200px;
+  width: var(--ancho-contenedor);
+  display: flex;
+}
+.container3 {
+  border:1px solid blue;
+  top:460px;
+  left: calc(50% - calc(var(--ancho-contenedor) / 2)); 
+}
+.container4 {
+  border:1px solid blue;
+  top:660px;
+  left: calc(50% - calc(var(--ancho-contenedor) / 2));
+}
+
+.card, .dropzone {
+  display: flex;
+  height: 180px;
+  width: var(--ancho-card);
+  background-color: #17141d;
+  border-radius: 10px;
+  box-shadow: -1rem 0 3rem #000;
+  transition: 0.4s ease-out;
+  position: relative;
+  left: 0px;
+}
+
+.card img, .container1 img, .container2 img { width:var(--ancho-card); }
+
+/*.card:not(:first-child) {
+    margin-left: -50px;
+}*/
+
+/*.card:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+}*/
+
+/*.container3 .card:hover, .container4 .card:hover {
+  transform: scale(2.5);
+  z-index:1;
+}*/
+
+/*.card:hover ~ .card {
+  position: relative;
+  left: 100px;
+  transition: 0.4s ease-out;
+}*/
+
+.title {
+  color: white;
+  font-weight: 300;
+  position: absolute;
+  left: 20px;
+  top: 15px;
+}
