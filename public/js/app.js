@@ -60,8 +60,10 @@ function selectedSource(event) {
     if (selectedEl !== el) {
       selectedEl = el;
       el.className = 'selected';
+      el.querySelector('div').className = "vermas";
     } else {
       selectedEl = null;
+      selectedEl.querySelector('div').className = "invisible";
     }
   }
 }
