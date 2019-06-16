@@ -19,7 +19,6 @@ function toggleSignIn() {
     firebase.auth().signInWithPopup(provider).then(function(result) {
       token = result.credential.accessToken;
       user = result.user;
-      email = result.email;
       showApp();
     }).catch(function(error) {
       var errorCode = error.code;

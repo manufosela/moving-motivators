@@ -16,6 +16,7 @@ let cards = {
   "poder": "images/cards/poder.png",
   "relaciones": "images/cards/relaciones.png" 
 };
+let usuarios = [];
 function readData() {
   let database = firebase.database();
   database.ref('/users').on('value', function(snapshot) {
@@ -23,10 +24,12 @@ function readData() {
     data = snapshot.val();
     if (data) {
       results = Object.keys(data).map((el) => {
+        usuarios.push(data[el].username);
         return data[el].data;
       });
       votantes = Object.keys(data).length;
       document.getElementById('votantes').innerHTML = votantes;
+      document.getElementById('users').innerHTML = '<div>' + usuarios.join('</div><div>') + '</div>';
       results.forEach((el) => {
         if (el !== undefined) {
           Object.keys(el).forEach(
