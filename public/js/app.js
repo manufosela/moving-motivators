@@ -100,7 +100,7 @@ function selectedSource(event) {
     if (el.className === 'selected') {
       el.className = '';
     } else {
-      if (selectedEl !== el) {
+      if (selectedEl !== el && el.id.match(/^source/)) {
         selectedEl = el;
         el.className = 'selected';
       }
