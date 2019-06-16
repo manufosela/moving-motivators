@@ -16,10 +16,11 @@ let cards = {
   "poder": "images/cards/poder.png",
   "relaciones": "images/cards/relaciones.png" 
 };
-let usuarios = [];
+let usuarios;
 function readData() {
   let database = firebase.database();
   database.ref('/users').on('value', function(snapshot) {
+    usuarios = [];
     votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
     data = snapshot.val();
     if (data) {
