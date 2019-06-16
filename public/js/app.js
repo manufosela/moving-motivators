@@ -1,5 +1,20 @@
 let dragged;
 let selectedEl;
+let database = firebase.database();
+
+function saveSelected(el) {
+  let posicion = el.id.replace('target', '');
+  let motivator = el.querySelector('img').alt;
+  let f = new Date();
+  movingMotivators[motivator] = posicion;
+  database.ref('users/' + uid).set({
+    username: displayName,
+    email: email,
+    profile_picture: photoURL,
+    data: movingMotivators,
+    date: f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear()
+  });
+}
 
 function dragstart(event) {
   dragged = event.target;
@@ -8,6 +23,7 @@ function dragstart(event) {
 
 function dragend(event) {
   event.target.style.opacity = '';
+  saveSelected(event.target.parentElement);
 }
 
 function dragover(event) {
@@ -49,32 +65,70 @@ function desktopOption() {
   DaDZone.addEventListener('drop', drop, false);
 }
 
-function selectedSource(event) {
-  let el = event.target;
-  document.querySelectorAll('div img').forEach((ele) => { 
+function deSelectAllImages() {
+  document.querySelectorAll('.sourcezone img[id^="source"').forEach((ele) => {
+    ele.className = '';
+    ele.parentElement.querySelector('div').className = 'invisible';
+  });
+  document.querySelectorAll('.dropzone img[id^="source"').forEach((ele) => {
     ele.className = '';
   });
-  if (el.className === 'selected') {
-    el.className = '';
-  } else {
-    if (selectedEl !== el) {
-      selectedEl = el;
-      el.className = 'selected';
-      el.querySelector('div').className = "vermas";
+  selectedEl = null;
+}
+
+function selectedSource(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  let el = event.target;
+  if (el.parentElement.className === 'sourcezone') {
+    if (el.alt === '+') {
+      selectedEl.parentElement.querySelector('div').className = 'invisible';
     } else {
-      selectedEl = null;
-      selectedEl.querySelector('div').className = "invisible";
+      deSelectAllImages();
+      if (el.className === 'selected') {
+        el.className = '';
+      } else {
+        if (selectedEl !== el) {
+          selectedEl = el;
+          el.className = 'selected';
+          el.parentElement.querySelector('div').className = 'vermas';
+        }
+      }
+    }
+  } else {
+    deSelectAllImages();
+    if (el.className === 'selected') {
+      el.className = '';
+    } else {
+      if (selectedEl !== el) {
+        selectedEl = el;
+        el.className = 'selected';
+      }
     }
   }
 }
 
 function selectedTarget(event) {
+  event.preventDefault();
   let el = event.target;
   if (selectedEl) {
-    el.appendChild(selectedEl);
-    selectedEl.className = '';
-    selectedEl = null;
+    if (selectedEl.parentElement.querySelector('div')) {
+      selectedEl.parentElement.querySelector('div').className = 'invisible';
+    }
+    if (selectedEl !== el) {
+      el.appendChild(selectedEl);
+      saveSelected(el);
+      selectedEl.className = '';
+      selectedEl = null;
+    }
   }
+}
+
+function zoomTarget(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  let el = event.target;
+  el.parentElement.parentElement.querySelector('img[id^="source"').className = 'gigante';
 }
 
 function mobileOption() {
@@ -85,15 +139,20 @@ function mobileOption() {
   document.querySelectorAll('div[class="dropzone"]').forEach((ele) => {
     ele.addEventListener('click', selectedTarget, false);
   });
+  document.querySelectorAll('div > img + div > img').forEach((ele) => {
+    ele.addEventListener('click', zoomTarget, false);
+  });
+}
+
+function resetValues() {
+  database.ref('users/' + uid).set(null);
+  location.href = location.href;
 }
 
 function load() {
   desktopOption();
   mobileOption();
+  document.getElementById('reset-button').addEventListener('click', resetValues);
 }
 
 document.addEventListener('DOMContentLoaded', load, false);
-
-
-
-

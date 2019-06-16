@@ -1,11 +1,33 @@
 body {
+  --ancho-card: 120px;
   background-color: #100e17;
-  font-family: 'Open Sans', sans-serif;
-  --ancho-card: 100px;
+  font-family: 'Verdana', 'Arial';
+  margin: 0 auto;
+  text-align: center;
 }
 
 header {
-  color:#FFFFFF;
+  text-align: center;
+  font-size: 1.5em;
+  background: #F93;
+  padding: 10px 0;
+}
+
+main {
+  margin: 30px 0 10px 0;
+}
+
+.layer-app {
+  transform: translate(120%);
+}
+
+.login-button {
+  font-size: 1em;
+}
+
+.user {
+  color:#F93;
+  font-size:1em;
 }
 
 .dropzone, .sourcezone {
@@ -23,6 +45,38 @@ header {
   color: #000;
 }
 
+.dropzone > img, .sourcezone > img {
+  width:var(--ancho-card); 
+  height:var(--ancho-card); 
+  z-index:1;
+}
+
+.selected { 
+  border: 5px inset red;
+}
+
+.vermas {
+  background-color: #FF0;
+  position: relative;
+  top: calc(-1 * var(--ancho-card) - 1.5em);
+  left: -1.5em;
+  border: 1px solid red;
+  color: #000;
+  padding: 5px;
+  width: 2em;
+  height: 2em;
+}
+
+.vermas img {
+  border:0;
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+}
+
+.invisible { display:none; }
+
+
 .DropZoneGroup, .SourceZoneGroup {
   margin: 10px; 
   width: var(--ancho-card);
@@ -37,14 +91,9 @@ header {
   top: -90px;
 }
 
-.dropzone img, .sourcezone img {
-  width:var(--ancho-card); 
-  height:var(--ancho-card); 
-  z-index:1;
-}
-
 .dropzone, .sourcezone { margin-bottom:20px; }
 
-.selected { 
-  border: 5px inset red;
+.gigante {
+  transition: all .5s ease-in-out;
+  transform: scale(2.5) translate(-3em);
 }
