@@ -4,7 +4,7 @@ body {
   font-family: 'Verdana', 'Arial';
   margin: 0 auto;
   text-align: center;
-  width: calc(var(--ancho-card) * 6);
+  width: calc(var(--ancho-card) * 7);
 }
 
 header {
@@ -18,10 +18,35 @@ header {
 main {
   margin: 30px 0 10px 0;
   overflow: hidden;
+  display: grid;
+    grid-gap: 1em;
+    grid-template-columns: auto 20%;
+    grid-template-areas:
+      "header otracosa"
+      "content sidebar"
+      "footer footer"
+}
+
+#users {
+  grid-area: sidebar;
+  color:#FFF;
+  text-align: left;
 }
 
 .layer-app {
+  grid-area: content;
   transform: translate(120%);
+}
+
+.layer-login {
+  grid-area: header;
+}
+
+footer {
+  grid-area: footer;
+  height: 50px;
+  color: #FFF;
+  margin: 30px 0 0 0;
 }
 
 .login-button {
