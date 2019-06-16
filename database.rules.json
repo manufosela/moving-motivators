@@ -1,6 +1,6 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    ".read": "auth.provider === 'google' && auth.token.email.matches(/.*@kairosds.com$/)",
+    ".write": "auth.provider === 'google' && auth.token.email.matches(/.*@kairosds.com$/)",
   }
 }
