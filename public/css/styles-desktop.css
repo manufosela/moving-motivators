@@ -7,7 +7,6 @@ body {
 }
 
 header {
-  width: calc(var(--ancho-card) * 5 + 60px);
   text-align: center;
   font-size: 4em;
   background: #F93;
