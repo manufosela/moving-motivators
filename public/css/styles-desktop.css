@@ -4,7 +4,6 @@ body {
   font-family: 'Verdana', 'Arial';
   margin: 0 auto;
   text-align: center;
-  width: calc(var(--ancho-card) * 7);
 }
 
 header {
@@ -138,5 +137,5 @@ footer {
 
 .gigante {
   transition: all .5s ease-in-out;
-  transform: scale(2.5) translate(0, -2em);
+  transform: scale(2.5) translate(0, 2em);
 }
