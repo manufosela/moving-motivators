@@ -4,12 +4,14 @@ function hideApp() {
   let layer = document.querySelector('.layer-app');
   layer.style.transition='all .5s ease-in-out';
   layer.style.transform='translate(120%)';
+  document.querySelector('#reset-button').style.display = 'none';
 }
 
 function showApp() {
   let layer = document.querySelector('.layer-app');
   layer.style.transition='all .5s ease-in-out';
   layer.style.transform='translate(0%)';
+  document.querySelector('#reset-button').style.display = '';
 }
 
 function toggleSignIn() {
