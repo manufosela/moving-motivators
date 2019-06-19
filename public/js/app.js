@@ -65,46 +65,62 @@ function desktopOption() {
   DaDZone.addEventListener('drop', drop, false);
 }
 
-function deSelectAllImages() {
-  document.querySelectorAll('.sourcezone img[id^="source"').forEach((ele) => {
+function stopEvents() {
+  event.preventDefault();
+  event.stopPropagation();
+}
+
+function deSelectAllImages(el) {
+  document.querySelectorAll('.sourcezone img[id^="source"]').forEach((ele) => {
     ele.className = '';
     ele.parentElement.querySelector('div').className = 'invisible';
   });
-  document.querySelectorAll('.dropzone img[id^="source"').forEach((ele) => {
+  document.querySelectorAll('.dropzone img[id^="source"]').forEach((ele) => {
     ele.className = '';
   });
   selectedEl = null;
 }
 
+function styleLupa(className) {
+  if (selectedEl.parentElement.querySelector('div')) {
+    selectedEl.parentElement.querySelector('div').className = className;
+  }
+}
+
+function chooseSelectedElementClass(el) {
+  if (el.className === 'selected') {
+    el.className = '';
+  } else {
+    if (selectedEl !== el && el.id.match(/^source/)) {
+      selectedEl = el;
+      el.className = 'selected';
+      styleLupa('vermas');
+    }
+  }
+}
+
+function isSelected(el) {
+  if (el.className === 'selected') {
+    el.className = '';
+    styleLupa('invisible');
+    selectedEl = null;
+  } else {
+    deSelectAllImages();
+    chooseSelectedElementClass(el);
+  }
+}
+
 function selectedSource(event) {
-  event.preventDefault();
-  event.stopPropagation();
+  stopEvents();
   let el = event.target;
   if (el.parentElement.className === 'sourcezone') {
     if (el.alt === '+') {
       selectedEl.parentElement.querySelector('div').className = 'invisible';
     } else {
-      deSelectAllImages();
-      if (el.className === 'selected') {
-        el.className = '';
-      } else {
-        if (selectedEl !== el) {
-          selectedEl = el;
-          el.className = 'selected';
-          el.parentElement.querySelector('div').className = 'vermas';
-        }
-      }
+      isSelected(el);
     }
   } else {
-    deSelectAllImages();
-    if (el.className === 'selected') {
-      el.className = '';
-    } else {
-      if (selectedEl !== el && el.id.match(/^source/)) {
-        selectedEl = el;
-        el.className = 'selected';
-      }
-    }
+    isSelected(el)
   }
 }
 
@@ -112,9 +128,7 @@ function selectedTarget(event) {
   event.preventDefault();
   let el = event.target;
   if (selectedEl) {
-    if (selectedEl.parentElement.querySelector('div')) {
-      selectedEl.parentElement.querySelector('div').className = 'invisible';
-    }
+    styleLupa('invisible');
     if (selectedEl !== el) {
       el.appendChild(selectedEl);
       saveSelected(el);
@@ -125,10 +139,9 @@ function selectedTarget(event) {
 }
 
 function zoomTarget(event) {
-  event.preventDefault();
-  event.stopPropagation();
+  stopEvents();
   let el = event.target;
-  el.parentElement.parentElement.querySelector('img[id^="source"').className = 'gigante';
+  el.parentElement.parentElement.querySelector('img[id^="source"]').className = 'gigante';
 }
 
 function mobileOption() {
