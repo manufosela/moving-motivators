@@ -6,7 +6,7 @@ body {
   color: #fff;
   margin: 0 auto;
   text-align: center;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 header {
