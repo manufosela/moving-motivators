@@ -19,9 +19,9 @@ let cards = {
 let usuarios;
 function readData() {
   let database = firebase.database();
+  votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
   database.ref('/users').on('value', function(snapshot) {
     usuarios = [];
-    votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
     data = snapshot.val();
     if (data) {
       results = Object.keys(data).map((el) => {
@@ -66,6 +66,15 @@ function readData() {
           countP++;
         }
       });
+    } else {
+      if ( parseInt(document.getElementById('votantes').innerHTML) > 0) {
+        document.getElementById('votantes').innerHTML = 0;
+        document.getElementById('users').innerHTML = '';
+        Object.keys(votos).forEach((el, p)=>{ 
+          document.getElementById('pos' + p).innerHTML = '';
+        });
+        votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+      }
     }
   });
 }
