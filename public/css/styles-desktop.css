@@ -48,22 +48,22 @@ footer {
   margin: 30px 0 0 0;
 }
 
-.login-button {
+.login-button,
+.reset-button {
+  background-image: linear-gradient(90deg, #ff2882, #37003c);
+  background-image: linear-gradient(0deg, #ff2882, #ff2882);
+  border: 0;
   font-size: 2em;
-  margin: 5px 0 20px 0;
-  padding: 5px;
-  border-radius: 10px;
-  width: 350px;
+  color: #fff;
+  padding: 0 3.6rem;
+  line-height: 3rem;
+  border-radius: 2px;
+  transition: background-image 0.4s;
 }
 
-.reset-button {
-  font-size: 2em;
-  margin: 5px 0 20px 0;
-  padding: 5px;
-  border-radius: 10px;
-  width: 350px;
-  background: #F00;
-  color: #FF0;
+.login-button:active,
+.reset-button:active {
+  background-image: linear-gradient(270deg, #ff2882, #963cff);
 }
 
 .votantes {
