@@ -1,57 +1,150 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Moving Motivators</title>
-  <link rel="stylesheet" type="text/css" href="css/styles-desktop.css" media="(min-width: 640px)">
-  <link rel="stylesheet" type="text/css" href="css/styles-mobile.css" media="(max-width: 640px)">
-  <script src="js/firebase/6.2.0/firebase-app.js"></script>
-  <script src="js/firebase/6.2.0/firebase-auth.js"></script>
-  <script src="js/firebase/6.2.0/firebase-database.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/login.js"></script>
-  <script src="js/app.js"></script>
-</head>
-<body>
-  <header>Moving Motivators</header>
-  <main>
-    <section class="layer-login">
-      <div id="user" class="user"></div>
-      <button disabled class="login-button" id="quickstart-sign-in">Sign in with Google</button>
-      <button class="reset-button" id="reset-button">RESET</button>
-    </section>
-    <section class="layer-app">
-      <div id="draganddropzone">
-        <div class="DropZoneGroup">
-          <div class="dropzone" id="target1">1</div>
-          <div class="dropzone" id="target2">2</div>
-          <div class="dropzone" id="target3">3</div>
-          <div class="dropzone" id="target4">4</div>
-          <div class="dropzone" id="target5">5</div>
-          <div class="dropzone" id="target6">6</div>
-          <div class="dropzone" id="target7">7</div>
-          <div class="dropzone" id="target8">8</div>
-          <div class="dropzone" id="target9">9</div>
-          <div class="dropzone" id="target10">10</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Moving Motivators</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Fira+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/styles-desktop.css"
+      media="(min-width: 640px)"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/styles-mobile.css"
+      media="(max-width: 640px)"
+    />
+    <script src="js/firebase/6.2.0/firebase-app.js"></script>
+    <script src="js/firebase/6.2.0/firebase-auth.js"></script>
+    <script src="js/firebase/6.2.0/firebase-database.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/app.js"></script>
+  </head>
+  <body>
+    <header>Moving Motivators</header>
+    <main>
+      <section class="layer-login">
+        <div id="user" class="user"></div>
+        <button disabled class="login-button" id="quickstart-sign-in"></button>
+        <button class="reset-button" id="reset-button">RESET</button>
+      </section>
+      <section class="layer-app">
+        <div id="draganddropzone" class="grid">
+          <div class="DropZoneGroup">
+            <div class="dropzone" id="target1">1</div>
+            <div class="dropzone" id="target2">2</div>
+            <div class="dropzone" id="target3">3</div>
+            <div class="dropzone" id="target4">4</div>
+            <div class="dropzone" id="target5">5</div>
+            <div class="dropzone" id="target6">6</div>
+            <div class="dropzone" id="target7">7</div>
+            <div class="dropzone" id="target8">8</div>
+            <div class="dropzone" id="target9">9</div>
+            <div class="dropzone" id="target10">10</div>
+          </div>
+          <p class="instrucctions">Ordena según tu criterio de valores</p>
+          <div class="SourceZoneGroup">
+            <div class="sourcezone">
+              <img
+                id="source1"
+                src="images/cards/aceptacion.png"
+                alt="aceptacion"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source2"
+                src="images/cards/curiosidad.png"
+                alt="curiosidad"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source3"
+                src="images/cards/estatus.png"
+                alt="estatus"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source4"
+                src="images/cards/honra.png"
+                alt="honra"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source5"
+                src="images/cards/libertad.png"
+                alt="libertad"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source6"
+                src="images/cards/maestria.png"
+                alt="maestria"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source7"
+                src="images/cards/meta.png"
+                alt="meta"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source8"
+                src="images/cards/orden.png"
+                alt="orden"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source9"
+                src="images/cards/poder.png"
+                alt="poder"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+            <div class="sourcezone">
+              <img
+                id="source10"
+                src="images/cards/relaciones.png"
+                alt="relaciones"
+                draggable="true"
+              />
+              <div class="invisible"><img src="images/zoom.svg" alt="+" /></div>
+            </div>
+          </div>
         </div>
-        <p>&nbsp;</p>
-        <p>Ordena según tu criterio de valores</p>
-        <div class="SourceZoneGroup">
-          <div class="sourcezone"><img id="source1" src="images/cards/aceptacion.png" alt="aceptacion" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source2" src="images/cards/curiosidad.png" alt="curiosidad" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source3" src="images/cards/estatus.png" alt="estatus"draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source4" src="images/cards/honra.png" alt="honra" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source5" src="images/cards/libertad.png" alt="libertad" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div> 
-          <div class="sourcezone"><img id="source6" src="images/cards/maestria.png" alt="maestria" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source7" src="images/cards/meta.png" alt="meta" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source8" src="images/cards/orden.png" alt="orden" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source9" src="images/cards/poder.png" alt="poder" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-          <div class="sourcezone"><img id="source10" src="images/cards/relaciones.png" alt="relaciones" draggable="true" /><div class="invisible"><img src="images/zoom.svg" alt="+" /></div></div>
-        </div>
-      </div>
-    </section>
-    <footer>@copyright 2019 - by @manufosela</footer>
-  </main>
-</body>
+      </section>
+      <footer>@copyright 2019 - by @manufosela</footer>
+    </main>
+  </body>
 </html>
