@@ -119,7 +119,7 @@ function swapElements(el1, el2) {
   let t2 = el2.parentElement;
   t1.removeChild(el1);
   t2.removeChild(el2);
-  t1.insertAdjacentElement('afterbegin', el2)
+  t1.insertAdjacentElement('afterbegin', el2);
   t2.insertAdjacentElement('afterbegin', el1);
 }
 
@@ -133,8 +133,10 @@ function selectedSource(event) {
       isSelected(el);
     }
   } else if (el.id.match(/^source/) && selectedEl && selectedEl !== el ) {
-    swapElements(el, selectedEl);
+    let copyselected = selectedEl;
     deselected(el);
+    deselected(copyselected);
+    swapElements(el, copyselected);
   } else {
     isSelected(el)
   }
