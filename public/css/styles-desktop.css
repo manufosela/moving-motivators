@@ -112,6 +112,17 @@ footer {
   border: 5px inset red;
 }
 
+#target1 { background-image: url(images/bkgnums/1.png); }
+#target2 { background-image: url(images/bkgnums/2.png); }
+#target3 { background-image: url(images/bkgnums/3.png); }
+#target4 { background-image: url(images/bkgnums/4.png); }
+#target5 { background-image: url(images/bkgnums/5.png); }
+#target6 { background-image: url(images/bkgnums/6.png); }
+#target7 { background-image: url(images/bkgnums/7.png); }
+#target8 { background-image: url(images/bkgnums/8.png); }
+#target9 { background-image: url(images/bkgnums/9.png); }
+#target10 { background-image: url(images/bkgnums/10.png); }
+
 .vermas {
   background-color: #FF0;
   float: right;
