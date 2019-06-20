@@ -135,6 +135,11 @@ footer {
 .invisible { display:none; }
 
 .gigante {
-  transition: all .5s ease-in-out;
-  transform: scale(2.5) translate(0, 2em);
+  /*transition: all .5s ease-in-out;
+  transform: scale(2.5) translate(0, 2em);*/
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: scale(2.5) translate(-30%, -30%);
 }
