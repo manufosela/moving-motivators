@@ -1,5 +1,7 @@
 {
   "projects": {
-    "movingmotivators": "moving-motivators"
+    "movingmotivators": "moving-motivators",
+    "kdsmotivators": "kdsmotivators",
+    "default": "kdsmotivators"
   }
 }
