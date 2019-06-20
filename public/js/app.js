@@ -81,10 +81,16 @@ function deSelectAllImages(el) {
   selectedEl = null;
 }
 
-function styleLupa(className) {
-  if (selectedEl.parentElement.querySelector('div')) {
-    selectedEl.parentElement.querySelector('div').className = className;
+function styleLupa(className, el) {
+  if (el.parentElement.querySelector('div')) {
+    el.parentElement.querySelector('div').className = className;
   }
+}
+
+function deselected(el) {
+  el.className = '';
+  styleLupa('invisible', el);
+  selectedEl = null;
 }
 
 function chooseSelectedElementClass(el) {
@@ -94,40 +100,41 @@ function chooseSelectedElementClass(el) {
     if (selectedEl !== el && el.id.match(/^source/)) {
       selectedEl = el;
       el.className = 'selected';
-      styleLupa('vermas');
+      styleLupa('vermas', selectedEl);
     }
   }
 }
 
 function isSelected(el) {
   if (el.className === 'selected') {
-    el.className = '';
-    styleLupa('invisible');
-    selectedEl = null;
+    deselected(el);
   } else {
     deSelectAllImages();
     chooseSelectedElementClass(el);
   }
 }
 
+function swapElements(el1, el2) {
+  let t1 = el1.parentElement;
+  let t2 = el2.parentElement;
+  t1.removeChild(el1);
+  t2.removeChild(el2);
+  t1.insertAdjacentElement('afterbegin', el2)
+  t2.insertAdjacentElement('afterbegin', el1);
+}
+
 function selectedSource(event) {
   stopEvents();
   let el = event.target;
-  if (el.parentElement.className === 'sourcezone' && selectedEl.parentElement.className === 'targetzone') {
+  if (el.parentElement.className === 'sourcezone') {
     if (el.alt === '+') {
-      selectedEl.parentElement.querySelector('div').className = 'invisible';
+      styleLupa('invisible', selectedEl);
     } else {
       isSelected(el);
     }
-  } else if (el.id.match(/^source/) && selectedEl ) {
-    let t1 = el.parentElement;
-    let t2 = selectedEl.parentElement;
-    t1.removeChild(el);
-    t2.removeChild(selectedEl);
-    t1.appendChild(selectedEl);
-    t2.appendChild(el);
-    selectedEl.className = '';
-    selectedEl = null;
+  } else if (el.id.match(/^source/) && selectedEl && selectedEl !== el ) {
+    swapElements(el, selectedEl);
+    deselected(el);
   } else {
     isSelected(el)
   }
@@ -138,7 +145,7 @@ function selectedTarget(event) {
   event.preventDefault();
   let el = event.target;
   if (selectedEl) {
-    styleLupa('invisible');
+    styleLupa('invisible', selectedEl);
     if (selectedEl !== el) {
       el.appendChild(selectedEl);
       saveSelected(el);
