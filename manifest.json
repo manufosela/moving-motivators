@@ -1,7 +1,7 @@
 {
-  "name": "Moving Motivators",
-  "short_name": "Moving Motivators",
-  "description": "Moving Motivators Game",
+  "name": "KDS Motivators",
+  "short_name": "KDS Motivators",
+  "description": "KDS Motivators Game",
   "icons": [
     {
       "src": "images/manifest/icon-72x72.png",
