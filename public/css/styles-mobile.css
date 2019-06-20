@@ -105,16 +105,16 @@ main {
   border-style: double;
 }
 
-#target1 { background-image: url(/images/bkgnums/1.png); }
-#target2 { background-image: url(/images/bkgnums/2.png); }
-#target3 { background-image: url(/images/bkgnums/3.png); }
-#target4 { background-image: url(/images/bkgnums/4.png); }
-#target5 { background-image: url(/images/bkgnums/5.png); }
-#target6 { background-image: url(/images/bkgnums/6.png); }
-#target7 { background-image: url(/images/bkgnums/7.png); }
-#target8 { background-image: url(/images/bkgnums/8.png); }
-#target9 { background-image: url(/images/bkgnums/9.png); }
-#target10 { background-image: url(/images/bkgnums/10.png); }
+#target1 { background-image: url(/images/bkgnums/1.png); background-repeat: no-repeat; }
+#target2 { background-image: url(/images/bkgnums/2.png); background-repeat: no-repeat; }
+#target3 { background-image: url(/images/bkgnums/3.png); background-repeat: no-repeat; }
+#target4 { background-image: url(/images/bkgnums/4.png); background-repeat: no-repeat; }
+#target5 { background-image: url(/images/bkgnums/5.png); background-repeat: no-repeat; }
+#target6 { background-image: url(/images/bkgnums/6.png); background-repeat: no-repeat; }
+#target7 { background-image: url(/images/bkgnums/7.png); background-repeat: no-repeat; }
+#target8 { background-image: url(/images/bkgnums/8.png); background-repeat: no-repeat; }
+#target9 { background-image: url(/images/bkgnums/9.png); background-repeat: no-repeat; }
+#target10 { background-image: url(/images/bkgnums/10.png); background-repeat: no-repeat; }
 
 .vermas {
   background-color: #fff;
