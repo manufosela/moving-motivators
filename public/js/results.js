@@ -35,7 +35,7 @@ function readData() {
         if (el !== undefined) {
           Object.keys(el).forEach(
             (k) => {
-              votos[k] += parseInt(el[k]);
+              votos[k] += parseInt(0 + el[k]);
             }
           );
         }
