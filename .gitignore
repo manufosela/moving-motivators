@@ -2,3 +2,5 @@ build/
 node_modules/
 .firebase
 firebase-debug.log
+.cache
+dist/
