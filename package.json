@@ -1,0 +1,29 @@
+{
+  "name": "moving-motivators",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build src/index.html",
+    "serve": "parcel serve src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cgrs/moving-motivators.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cgrs/moving-motivators/issues"
+  },
+  "homepage": "https://github.com/cgrs/moving-motivators#readme",
+  "devDependencies": {
+    "firebase-tools": "^7.0.2",
+    "parcel": "^1.12.3"
+  },
+  "dependencies": {
+    "@firebase/app": "^0.4.8",
+    "firebase": "^6.2.3"
+  }
+}
