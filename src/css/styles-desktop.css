@@ -34,8 +34,14 @@ main {
 
 .layer-app {
   grid-area: content;
-  transform: translate(120%);
+  transform: translate(0%);
   margin: 0 5%;
+  transition: all 500ms ease-in-out;
+}
+
+.layer-app.hidden {
+  transform: translate(120%);
+  visibility: hidden;
 }
 
 .layer-login {
@@ -60,6 +66,10 @@ footer {
   line-height: 3rem;
   border-radius: 2px;
   transition: background-image 0.4s;
+}
+
+#reset-button.hidden {
+  display: none;
 }
 
 .login-button:active,

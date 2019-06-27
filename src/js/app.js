@@ -1,18 +1,26 @@
+import firebaseApp from './_common/init';
+import './_common/login';
+import {$, $$, AppEvents, useConfig} from './_common/utils';
+
 let dragged;
 let selectedEl;
-let database = firebase.database();
+const database = firebaseApp.database();
+const [getValue, setValue, deleteValue] = useConfig()
 
 function saveSelected(el) {
   let posicion = el.id.replace('target', '');
   let motivator = el.querySelector('img').alt;
   let f = new Date();
-  movingMotivators[motivator] = posicion;
-  database.ref('users/' + uid).set({
-    username: displayName,
-    email: email,
-    profile_picture: photoURL,
-    data: movingMotivators,
-    date: f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear()
+  const motivators = getValue('movingMotivators')
+  motivators[motivator] = posicion;
+  setValue('movingMotivators', motivators);
+  const user = getValue('user')
+  database.ref(`users/${user.uid}`).set({
+    username: user.displayName,
+    email: user.email,
+    profile_picture: user.photoURL,
+    data: motivators,
+    date: `${f.getDate()}/${f.getMonth()+1}/${f.getFullYear()}`
   });
 }
 
@@ -54,7 +62,7 @@ function drop(event) {
 }
 
 function desktopOption() {
-  const DaDZone = document.getElementById('draganddropzone');
+  const DaDZone = $('#draganddropzone');
   /* events fired on the draggable target */
   DaDZone.addEventListener('dragstart', dragstart, false);
   DaDZone.addEventListener('dragend', dragend, false);
@@ -71,11 +79,11 @@ function stopEvents() {
 }
 
 function deSelectAllImages(el) {
-  document.querySelectorAll('.sourcezone img[id^="source"]').forEach((ele) => {
+  $$('.sourcezone img[id^="source"]').forEach((ele) => {
     ele.className = '';
     ele.parentElement.querySelector('div').className = 'invisible';
   });
-  document.querySelectorAll('.dropzone img[id^="source"]').forEach((ele) => {
+  $$('.dropzone img[id^="source"]').forEach((ele) => {
     ele.className = '';
   });
   selectedEl = null;
@@ -164,27 +172,27 @@ function zoomTarget(event) {
 }
 
 function mobileOption() {
-  const aSource = document.querySelectorAll('div[class="sourcezone"] img');
-  document.querySelectorAll('div[class="sourcezone"] img').forEach((ele) => {
+  const aSource = $$('div[class="sourcezone"] img');
+  $$('div[class="sourcezone"] img').forEach(ele => {
     ele.addEventListener('click', selectedSource, false);
   });
-  document.querySelectorAll('div[class="dropzone"]').forEach((ele) => {
+  $$('div[class="dropzone"]').forEach(ele => {
     ele.addEventListener('click', selectedTarget, false);
   });
-  document.querySelectorAll('div > img + div > img').forEach((ele) => {
+  $$('div > img + div > img').forEach(ele => {
     ele.addEventListener('click', zoomTarget, false);
   });
 }
 
 function resetValues() {
-  database.ref('users/' + uid).set(null);
+  database.ref(`users/${getValue('user').uid}`).set(null);
   location.href = location.href;
 }
 
 function load() {
   desktopOption();
   mobileOption();
-  document.getElementById('reset-button').addEventListener('click', resetValues);
+  $('#reset-button').addEventListener('click', resetValues);
 }
 
 document.addEventListener('DOMContentLoaded', load, false);
