@@ -2,7 +2,30 @@ let dragged;
 let selectedEl;
 let database = firebase.database();
 
+function showBubbleFieldMsg(bubble, el) {
+  bubble.classList.remove('invisible');
+  const offset = 40;
+  const pos = el.getClientRects();
+  const bubbleTop = pos[0].top + scrollY + 200;
+  bubble.style.opacity = 1;
+  bubble.style.top = bubbleTop + 'px';
+  bubble.style.left = (pos[0].left + 40) + 'px';
+  let opacity = 1;
+  let idInterval = setInterval(() => {
+    const val = parseInt(bubble.style.top) - 2;
+    if (val < bubbleTop - offset) {
+      clearInterval(idInterval);
+      bubble.classList.add('invisible');
+    }
+    opacity -= 0.01;
+    bubble.style.opacity = opacity;
+    bubble.style.top = val + 'px';
+  }, 50);
+}
+
 function saveSelected(el) {
+  const bubble = document.querySelector('#bubbleSaved');
+  showBubbleFieldMsg(bubble, el);
   let posicion = el.id.replace('target', '');
   let motivator = el.querySelector('img').alt;
   let f = new Date();
@@ -132,15 +155,14 @@ function selectedSource(event) {
     } else {
       isSelected(el);
     }
-  } else if (el.id.match(/^source/) && selectedEl && selectedEl !== el ) {
+  } else if (el.id.match(/^source/) && selectedEl && selectedEl !== el) {
     let copyselected = selectedEl;
     deselected(el);
     deselected(copyselected);
     swapElements(el, copyselected);
   } else {
-    isSelected(el)
+    isSelected(el);
   }
-  
 }
 
 function selectedTarget(event) {

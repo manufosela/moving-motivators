@@ -16,6 +16,7 @@ let cards = {
   "poder": "images/cards/poder.png",
   "relaciones": "images/cards/relaciones.png" 
 };
+const usernameUid = {};
 let usuarios;
 function readData() {
   let database = firebase.database();
@@ -24,13 +25,20 @@ function readData() {
     usuarios = [];
     data = snapshot.val();
     if (data) {
+      for (const ob in data) {
+        if (Object.prototype.hasOwnProperty.call(data, ob)) {
+          usernameUid[data[ob].username] = ob;
+        }
+      }
       results = Object.keys(data).map((el) => {
         usuarios.push(data[el].username);
         return data[el].data;
       });
       votantes = Object.keys(data).length;
       document.getElementById('votantes').innerHTML = votantes;
-      document.getElementById('users').innerHTML = '<div>' + usuarios.join('</div><div>') + '</div>';
+      document.getElementById('users').innerHTML = usuarios.map((user)=>{
+        return `<div><a onclick="getUser('${usernameUid[user]}')" href="#">${user}</a></div>`;
+      }).join('');
       results.forEach((el) => {
         if (el !== undefined) {
           Object.keys(el).forEach(
@@ -67,14 +75,18 @@ function readData() {
         }
       });
     } else {
-      if ( parseInt(document.getElementById('votantes').innerHTML) > 0) {
+      if (parseInt(document.getElementById('votantes').innerHTML) > 0) {
         document.getElementById('votantes').innerHTML = 0;
         document.getElementById('users').innerHTML = '';
-        Object.keys(votos).forEach((el, p)=>{ 
+        Object.keys(votos).forEach((el, p)=>{
           document.getElementById('pos' + p).innerHTML = '';
         });
         votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
       }
     }
   });
+}
+
+function getUser(uid) {
+  //console.log(data[uid].data);
 }

@@ -156,3 +156,27 @@ footer {
   top: 50%;
   transform: scale(2.5) translate(-30%, -30%);
 }
+
+.bubbleSaved {
+  content:"Saved";
+  position:absolute;
+  font-size:1.5rem;
+  height:3rem;
+  line-height:1.5em;
+  padding:0 .46em;
+  text-align:center;
+  text-shadow:0 0.063em 0 rgba(0,0,0,.2);
+  background-color: #F93;
+  color: #FFF;
+  width: 100px;
+  box-shadow:0 0.063em 0.063em rgba(0,0,0,.2);
+  border-radius:4em;
+  z-index:1;
+  opacity:0;
+}
+.invisible {
+  display: none;
+}
+a {
+  color:#FFF;
+}
