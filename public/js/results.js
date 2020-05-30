@@ -37,7 +37,8 @@ function readData() {
       votantes = Object.keys(data).length;
       document.getElementById('votantes').innerHTML = votantes;
       document.getElementById('users').innerHTML = usuarios.map((user)=>{
-        return `<div><a onclick="getUser('${usernameUid[user]}')" href="#">${user}</a></div>`;
+        return `<div>${user}</div>`;
+        //return `<div><a onclick="getUser('${usernameUid[user]}')" href="#">${user}</a></div>`;
       }).join('');
       results.forEach((el) => {
         if (el !== undefined) {
