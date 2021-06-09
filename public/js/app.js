@@ -1,6 +1,30 @@
 let dragged;
 let selectedEl;
-let database = firebase.database();
+const database = firebase.database();
+let refBBDD;
+
+function readData(refBBDDReceived) {
+  refBBDD = refBBDDReceived;
+  const database = firebase.database();
+  database.ref(`${refBBDD}/${uid}`).once('value').then(function(snapshot) {
+    // document.querySelector('.layer-login').removeChild = errormsg;
+    const data = snapshot.val();
+    if (data) {
+      movingMotivators = data.data;
+      Object.keys(movingMotivators).forEach((el) => {
+        const mmv = document.querySelector('img[alt="' + el + '"]');
+        const target = document.querySelector('div[id=target' + movingMotivators[el] + ']');
+        target.appendChild(mmv);
+      });
+    }
+  }).catch(function(error) {
+    hideApp();
+    console.log(error);
+    errormsg.className = 'user';
+    errormsg.innerText = 'Ocurrio un error en la aplicación. Mánu es un pakete.';
+    document.querySelector('.layer-login').appendChild(errormsg);
+  });
+}
 
 function showBubbleFieldMsg(bubble, el) {
   bubble.classList.remove('invisible');
@@ -30,7 +54,7 @@ function saveSelected(el) {
   let motivator = el.querySelector('img').alt;
   let f = new Date();
   movingMotivators[motivator] = posicion;
-  database.ref('users/' + uid).set({
+  database.ref(`${refBBDD}/${uid}`).set({
     username: displayName,
     email: email,
     profile_picture: photoURL,
@@ -199,7 +223,7 @@ function mobileOption() {
 }
 
 function resetValues() {
-  database.ref('users/' + uid).set(null);
+  database.ref(`${refBBDD}/${uid}`).set(null);
   location.href = location.href;
 }
 

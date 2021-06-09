@@ -2,9 +2,10 @@ let data;
 let results;
 let votantes;
 let sortable;
-// eslint-disable-next-line quotes
 let votos;
-let cards = {
+let usuarios;
+
+const cards = {
   "aceptacion": "images/cards/aceptacion.png", 
   "curiosidad": "images/cards/curiosidad.png",
   "estatus": "images/cards/estatus.png",
@@ -17,11 +18,11 @@ let cards = {
   "relaciones": "images/cards/relaciones.png" 
 };
 const usernameUid = {};
-let usuarios;
-function readData() {
+
+function readData(refBBDD) {
   let database = firebase.database();
   votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
-  database.ref('/users').on('value', function(snapshot) {
+  database.ref(refBBDD).on('value', function(snapshot) {
     usuarios = [];
     data = snapshot.val();
     if (data) {
@@ -54,7 +55,11 @@ function readData() {
       });
 
       sortable = [];
-      for (var pos in votos) {
+      // votosKeys = Object.keys(votosKeys);
+      // votosKeys.forEach((voto) => {
+      //   sortable.push([voto, votos[voto]]);
+      // });
+      for (let pos in votos) {
         if ({}.hasOwnProperty.call(votos, pos)) {
           sortable.push([pos, votos[pos]]);
         }
