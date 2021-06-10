@@ -67,9 +67,19 @@ footer {
   background-image: linear-gradient(270deg, #ff2882, #963cff);
 }
 
-.votantes {
+.comparativa-data {
+  margin: 0 1rem;
+  text-align: left;
+}
+
+.votantes, .evento {
   color:#FFF;
-  font-size:2em;
+  font-size:2rem;
+}
+
+#evento {
+  color:#09F;
+  font-size:2rem;
 }
 
 .user {
