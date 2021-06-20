@@ -14,7 +14,7 @@ header {
   padding: 10px 0;
 }
 
-main {
+.mainIndex, .mainResults {
   margin: 30px 0 10px 0;
   overflow: hidden;
   display: grid;
@@ -24,6 +24,11 @@ main {
       "header otracosa"
       "content sidebar"
       "footer footer"
+}
+
+.mainComparativa {
+  margin: 30px 0 10px 0;
+  overflow: hidden;
 }
 
 #users {
@@ -36,6 +41,14 @@ main {
   grid-area: content;
   transform: translate(120%);
   margin: 0 5%;
+}
+
+#layerAppComp {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 2rem;
 }
 
 .layer-login {
@@ -75,6 +88,7 @@ footer {
 .votantes, .evento {
   color:#FFF;
   font-size:2rem;
+  text-align: left;
 }
 
 #evento {
