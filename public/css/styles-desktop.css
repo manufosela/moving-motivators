@@ -47,7 +47,7 @@ header {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0 2rem;
 }
 
@@ -89,6 +89,10 @@ footer {
   color:#FFF;
   font-size:2rem;
   text-align: left;
+}
+
+.eventos {
+  margin: 0 4rem;
 }
 
 #evento {
