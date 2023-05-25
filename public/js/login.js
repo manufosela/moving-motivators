@@ -1,6 +1,5 @@
-import { refBBDD } from './app.config.mjs';
-
 const errormsg = document.createElement('h3');
+let refBBDD;
 
 function hideApp() {
   const layer = document.querySelector('.layer-app');
@@ -49,8 +48,25 @@ function toggleSignIn() {
   document.getElementById('quickstart-sign-in').disabled = true;
 }
 
+function getRefBBDD() {
+  return new Promise((resolve, reject) => {
+    database.ref('/active_event').once('value').then(function(snapshot) {
+      const data = snapshot.val();
+      if (data) {
+        resolve(data);
+      } else {
+        console.log('No hay evento activo');
+        reject('No hay evento activo');
+      }
+    }).catch(function(error) {
+      console.log(error);
+      reject(error);
+    });
+  });
+}
+
 function initApp() {
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(async function(user) {
     if (user) {
       displayName = user.displayName;
       email = user.email;
@@ -73,6 +89,7 @@ function initApp() {
   document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
 
-window.onload = function() {
+window.onload = async function() {
+  refBBDD = await getRefBBDD();
   initApp();
 };
