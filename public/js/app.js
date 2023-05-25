@@ -7,7 +7,7 @@ let refBBDD;
 function readData(refBBDDReceived) {
   refBBDD = refBBDDReceived;
   const database = firebase.database();
-  database.ref(`${refBBDD}/${uid}`).once('value').then(function(snapshot) {
+  database.ref(`/usuarios/${refBBDD}/${uid}`).once('value').then(function(snapshot) {
     // document.querySelector('.layer-login').removeChild = errormsg;
     const data = snapshot.val();
     if (data) {
@@ -224,7 +224,7 @@ function mobileOption() {
 }
 
 function resetValues() {
-  database.ref(`${refBBDD}/${uid}`).set(null);
+  database.ref(`/usuarios/${refBBDD}/${uid}`).set(null);
   location.href = location.href;
 }
 

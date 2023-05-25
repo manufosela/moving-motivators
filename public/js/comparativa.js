@@ -118,7 +118,7 @@ function readData() {
 function readDataEvento(refBBDD) {
   let database = firebase.database();
   votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
-  database.ref(refBBDD).on('value', function(snapshot) {
+  database.ref(`/usuarios/${refBBDD}`).on('value', function(snapshot) {
     usuarios = [];
     data = snapshot.val();
     if (data) {
