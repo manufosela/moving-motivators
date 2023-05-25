@@ -1,6 +1,7 @@
 let dragged;
 let selectedEl;
-const database = firebase.database();
+let database = false;
+database = (!database) ? firebase.database() : database;
 let refBBDD;
 
 function readData(refBBDDReceived) {
@@ -54,7 +55,7 @@ function saveSelected(el) {
   let motivator = el.querySelector('img').alt;
   let f = new Date();
   movingMotivators[motivator] = posicion;
-  database.ref(`${refBBDD}/${uid}`).set({
+  database.ref(`/usuarios/${refBBDD}/${uid}`).set({
     username: displayName,
     email: email,
     profile_picture: photoURL,

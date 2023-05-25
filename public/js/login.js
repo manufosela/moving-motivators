@@ -1,5 +1,11 @@
 const errormsg = document.createElement('h3');
 let refBBDD;
+let $event;
+let $cards;
+let $title;
+let $dataCards;
+let database = false;
+database = (!database) ? firebase.database() : database;
 
 function hideApp() {
   const layer = document.querySelector('.layer-app');
@@ -50,10 +56,13 @@ function toggleSignIn() {
 
 function getRefBBDD() {
   return new Promise((resolve, reject) => {
-    database.ref('/active_event').once('value').then(function(snapshot) {
+    database.ref('/active').once('value').then(function(snapshot) {
       const data = snapshot.val();
       if (data) {
-        resolve(data);
+        $event = data.event;
+        $cards = data.cards;
+        $title = data.title;
+        resolve($event);
       } else {
         console.log('No hay evento activo');
         reject('No hay evento activo');
@@ -61,6 +70,25 @@ function getRefBBDD() {
     }).catch(function(error) {
       console.log(error);
       reject(error);
+    });
+  });
+}
+
+function loadImages() {
+  return new Promise((resolve, reject) => {
+    database.ref(`/cards/${$cards}`).once('value').then(function(snapshot) {
+      const data = snapshot.val();
+      if (data) {
+        $dataCards = data;
+        const images = [...document.querySelectorAll('.sourcezone img[id^="source"]')];
+        images.forEach((img, index) => {
+          console.log(img, index);
+          img.src = data[index].image;
+          img.alt = data[index].title;
+          img.title = data[index].descripcion;
+        });
+        resolve();
+      }
     });
   });
 }
@@ -77,6 +105,8 @@ function initApp() {
       providerData = user.providerData;
       document.getElementById('quickstart-sign-in').textContent = 'Sign out';
       document.getElementById('user').textContent = `${displayName} (${email})`;
+      document.querySelector('header').textContent = $title;
+      await loadImages();
       readData(refBBDD);
       showApp();
     } else {

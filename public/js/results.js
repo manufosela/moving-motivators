@@ -5,24 +5,67 @@ let sortable;
 let votos;
 let usuarios;
 
-const cards = {
-  "aceptacion": "images/cards/aceptacion.png", 
-  "curiosidad": "images/cards/curiosidad.png",
-  "estatus": "images/cards/estatus.png",
-  "honra": "images/cards/honra.png",
-  "libertad": "images/cards/libertad.png",
-  "maestria": "images/cards/maestria.png",
-  "meta": "images/cards/meta.png",
-  "orden": "images/cards/orden.png",
-  "poder": "images/cards/poder.png",
-  "relaciones": "images/cards/relaciones.png" 
-};
-const usernameUid = {};
+let $event;
+let $cards;
+let $title;
 
-function readData(refBBDD) {
-  let database = firebase.database();
-  database.ref(refBBDD).on('value', function(snapshot) {
-    votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+const cards = {};
+// {
+//   "aceptacion": "images/cards/aceptacion.png", 
+//   "curiosidad": "images/cards/curiosidad.png",
+//   "estatus": "images/cards/estatus.png",
+//   "honra": "images/cards/honra.png",
+//   "libertad": "images/cards/libertad.png",
+//   "maestria": "images/cards/maestria.png",
+//   "meta": "images/cards/meta.png",
+//   "orden": "images/cards/orden.png",
+//   "poder": "images/cards/poder.png",
+//   "relaciones": "images/cards/relaciones.png" 
+// };
+const usernameUid = {};
+const $baseVotos = {};
+
+function loadCards() {
+  return new Promise((resolve, reject) => {
+    database.ref(`/cards/${$cards}`).once('value').then(function(snapshot) {
+      const data = snapshot.val();
+      if (data) {
+        data.forEach((img, index) => {
+          cards[data[index].title] = data[index].image;
+          $baseVotos[data[index].title] = 0;
+        });
+        resolve();
+      }
+    });
+  });
+}
+
+function getRefBBDD() {
+  return new Promise((resolve, reject) => {
+    database.ref('/active').once('value').then(function(snapshot) {
+      const data = snapshot.val();
+      if (data) {
+        $event = data.event;
+        $cards = data.cards;
+        $title = data.title;
+        resolve($event);
+      } else {
+        console.log('No hay evento activo');
+        reject('No hay evento activo');
+      }
+    }).catch(function(error) {
+      console.log(error);
+      reject(error);
+    });
+  });
+}
+
+async function readData(refBBDD) {
+  await getRefBBDD();
+  await loadCards();
+  database.ref(`/usuarios/${refBBDD}`).on('value', function(snapshot) {
+    //votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+    votos = $baseVotos;
     usuarios = [];
     data = snapshot.val();
     if (data) {
@@ -87,7 +130,7 @@ function readData(refBBDD) {
         Object.keys(votos).forEach((el, p)=>{
           document.getElementById('pos' + p).innerHTML = '';
         });
-        votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+        votos = $baseVotos;
       }
     }
   });
@@ -96,3 +139,5 @@ function readData(refBBDD) {
 function getUser(uid) {
   //console.log(data[uid].data);
 }
+
+let database = firebase.database();

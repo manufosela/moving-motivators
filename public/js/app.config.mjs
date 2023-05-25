@@ -1,3 +1,3 @@
-const evento = '3_agoradev_2021-6';
+const evento = '5_agoradev_2023-5';
 
 export const refBBDD = `usuarios/${evento}`;
