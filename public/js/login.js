@@ -62,7 +62,33 @@ function getRefBBDD() {
         $event = data.event;
         $cards = data.cards;
         $title = data.title;
-        resolve($event);
+        if (document.location.href.indexOf('index.html') > -1) {
+          database.ref(`/evento/${$event}`).once('value').then(function(snapshot) {
+            const data = snapshot.val();
+            if (data) {
+              const fechaHoraActual = new Date();
+              const fechaInicioParts = data.fechaini.split('/');
+              const horaInicioParts = data.horaini.split(':');
+              const fechaHoraInicio = new Date(fechaInicioParts[2], fechaInicioParts[1] - 1, fechaInicioParts[0], horaInicioParts[0], horaInicioParts[1], 0);
+              const fechaFinParts = data.fechafin.split('/');
+              const horaFinParts = data.horafin.split(':');
+              const fechaHoraFin = new Date(fechaFinParts[2], fechaFinParts[1] - 1, fechaFinParts[0], horaFinParts[0], horaFinParts[1], 0);
+              console.log(data.fechaini, data.horaini, data.fechafin, data.horafin);
+              //console.log(fechaHoraActual, fechaHoraInicio, fechaHoraFin);
+              if (fechaHoraActual >= fechaHoraInicio && fechaHoraActual <= fechaHoraFin) {
+                resolve($event);
+              } else {
+                console.log('No hay evento activo');
+                reject('No hay evento activo');
+              }
+            }
+          });
+        } else {
+          if (document.querySelector('.evento')) {
+            document.querySelector('.evento').innerHTML = $title;
+          }
+          resolve($event);
+        }
       } else {
         console.log('No hay evento activo');
         reject('No hay evento activo');
@@ -82,7 +108,7 @@ function loadImages() {
         $dataCards = data;
         const images = [...document.querySelectorAll('.sourcezone img[id^="source"]')];
         images.forEach((img, index) => {
-          console.log(img, index);
+          // console.log(img, index);
           img.src = data[index].image;
           img.alt = data[index].title;
           img.title = data[index].descripcion;
@@ -120,6 +146,14 @@ function initApp() {
 }
 
 window.onload = async function() {
-  refBBDD = await getRefBBDD();
-  initApp();
+  getRefBBDD().then(response=>{
+    refBBDD = response;
+    initApp();
+  }).catch((error) => {
+    console.log(error);
+    if (document.querySelector('.reset-button')) {
+      document.querySelector('.reset-button').style.display = 'none';
+    }
+    document.getElementById('user').textContent = 'No hay evento activo';
+  });  
 };

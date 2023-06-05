@@ -19,8 +19,19 @@ const cards = {
   "relaciones": "images/cards/relaciones.png" 
 };
 
+function quitarAcentos(str) {
+  const acentos = {
+    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U'
+  };
+  const result = str.replace(/[áéíóúÁÉÍÓÚ]/g, (letra) => {
+    return acentos[letra];
+  });
+  return result;
+}
+
 function getTpl(evento, votantes) {
-  const tpl = `
+  const tpl = /* html */`
     <section id="${evento}" class="eventos">
       <p class="comparativa-data">
         <div class="evento">Evento: <span id="evento">${evento}</span></div>
@@ -52,16 +63,18 @@ function drawResults(eventName, eventData, numVotantes) {
   userKeys.forEach((userKey) => {
     usernameUid[eventData[userKey].username] = userKey;
   });
-  results = Object.keys(eventData).map((el) => {
+  const results = Object.keys(eventData).map((el) => {
     usuarios.push(eventData[el].username);
     return eventData[el].data;
   });
   results.forEach((el) => {
-    if (el !== undefined) {
+    if (el !== undefined && el !== null && el !== '') {
       Object.keys(el).forEach(
-        (k) => {
+        (K) => {
+          const k = quitarAcentos(K.toLowerCase());
+          console.log(k);
           if (cardKeys.includes(k)) {
-            votantes[k] += parseInt(0 + el[k]);
+            votantes[k] += parseInt(0 + el[K]);
           }
         }
       );

@@ -5,25 +5,29 @@ database = (!database) ? firebase.database() : database;
 let refBBDD;
 
 function readData(refBBDDReceived) {
-  refBBDD = refBBDDReceived;
-  const database = firebase.database();
-  database.ref(`/usuarios/${refBBDD}/${uid}`).once('value').then(function(snapshot) {
-    // document.querySelector('.layer-login').removeChild = errormsg;
-    const data = snapshot.val();
-    if (data) {
-      movingMotivators = data.data;
-      Object.keys(movingMotivators).forEach((el) => {
-        const mmv = document.querySelector('img[alt="' + el + '"]');
-        const target = document.querySelector('div[id=target' + movingMotivators[el] + ']');
-        target.appendChild(mmv);
-      });
-    }
-  }).catch(function(error) {
-    hideApp();
-    console.log(error);
-    errormsg.className = 'user';
-    errormsg.innerText = 'Ocurrio un error en la aplicación. Mánu es un pakete.';
-    document.querySelector('.layer-login').appendChild(errormsg);
+  return new Promise((resolve, reject) => {
+    refBBDD = refBBDDReceived;
+    const database = firebase.database();
+    database.ref(`/usuarios/${refBBDD}/${uid}`).once('value').then(function(snapshot) {
+      // document.querySelector('.layer-login').removeChild = errormsg;
+      const data = snapshot.val();
+      if (data) {
+        movingMotivators = data.data;
+        Object.keys(movingMotivators).forEach((el) => {
+          const mmv = document.querySelector('img[alt="' + el + '"]');
+          const target = document.querySelector('div[id=target' + movingMotivators[el] + ']');
+          target.appendChild(mmv);
+        });
+        resolve();
+      }
+    }).catch(function(error) {
+      hideApp();
+      console.log(error);
+      errormsg.className = 'user';
+      errormsg.innerText = 'Ocurrio un error en la aplicación. Mánu es un pakete.';
+      document.querySelector('.layer-login').appendChild(errormsg);
+      reject();
+    });
   });
 }
 

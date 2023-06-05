@@ -35,6 +35,8 @@ header {
   grid-area: sidebar;
   color:#FFF;
   text-align: left;
+  height: 60vh;
+  overflow: auto;
 }
 
 .layer-app {
@@ -207,4 +209,7 @@ footer {
 }
 a {
   color:#FFF;
+}
+a.active {
+  background-color: #F93;
 }

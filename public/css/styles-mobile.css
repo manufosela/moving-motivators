@@ -171,3 +171,7 @@ footer {
   background-color: #3d195b;
   color: white;
 }
+
+a.active {
+  background-color: #F93;
+}

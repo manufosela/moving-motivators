@@ -10,22 +10,10 @@ let $cards;
 let $title;
 
 const cards = {};
-// {
-//   "aceptacion": "images/cards/aceptacion.png", 
-//   "curiosidad": "images/cards/curiosidad.png",
-//   "estatus": "images/cards/estatus.png",
-//   "honra": "images/cards/honra.png",
-//   "libertad": "images/cards/libertad.png",
-//   "maestria": "images/cards/maestria.png",
-//   "meta": "images/cards/meta.png",
-//   "orden": "images/cards/orden.png",
-//   "poder": "images/cards/poder.png",
-//   "relaciones": "images/cards/relaciones.png" 
-// };
 const usernameUid = {};
 const $baseVotos = {};
 
-function loadCards() {
+function loadResultCards() {
   return new Promise((resolve, reject) => {
     database.ref(`/cards/${$cards}`).once('value').then(function(snapshot) {
       const data = snapshot.val();
@@ -34,8 +22,8 @@ function loadCards() {
           cards[data[index].title] = data[index].image;
           $baseVotos[data[index].title] = 0;
         });
-        resolve();
       }
+      resolve();
     });
   });
 }
@@ -60,59 +48,104 @@ function getRefBBDD() {
   });
 }
 
-async function readData(refBBDD) {
-  await getRefBBDD();
-  await loadCards();
-  database.ref(`/usuarios/${refBBDD}`).on('value', function(snapshot) {
-    //votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
-    votos = $baseVotos;
-    usuarios = [];
-    data = snapshot.val();
-    if (data) {
-      for (const ob in data) {
-        if (Object.prototype.hasOwnProperty.call(data, ob)) {
-          usernameUid[data[ob].username] = ob;
-        }
-      }
-      results = Object.keys(data).map((el) => {
-        usuarios.push(data[el].username);
-        return data[el].data;
-      });
-      votantes = Object.keys(data).length;
-      document.getElementById('votantes').innerHTML = votantes;
-      document.getElementById('users').innerHTML = usuarios.map((user)=>{
-        return `<div>${user}</div>`;
-        //return `<div><a onclick="getUser('${usernameUid[user]}')" href="#">${user}</a></div>`;
-      }).join('');
-      results.forEach((el) => {
-        if (el !== undefined) {
-          Object.keys(el).forEach(
-            (k) => {
-              votos[k] += parseInt(0 + el[k]);
-            }
-          );
-        }
-      });
-      Object.keys(votos).forEach((k) => {
-        votos[k] = Math.round((votos[k] / votantes) * 100) / 100;
-      });
+function getResults() {
+  results = Object.keys(data).map((el) => {
+    usuarios.push(data[el].username);
+    return data[el].data;
+  });
+  return results;
+}
 
-      sortable = [];
-      // votosKeys = Object.keys(votosKeys);
-      // votosKeys.forEach((voto) => {
-      //   sortable.push([voto, votos[voto]]);
-      // });
-      for (let pos in votos) {
-        if ({}.hasOwnProperty.call(votos, pos)) {
-          sortable.push([pos, votos[pos]]);
+function sortResults() {
+  results.forEach((el) => {
+    if (el !== undefined) {
+      Object.keys(el).forEach(
+        (k) => {
+          if (votos[k] === undefined && $cards.includes(k)) {
+            votos[k] = 0;
+          }
+          votos[k] += parseInt(0 + el[k]);
         }
+      );
+    }
+  });
+  Object.keys(votos).forEach((k) => {
+    votos[k] = Math.round((votos[k] / votantes) * 100) / 100;
+  });
+
+  sortable = [];
+  for (let pos in votos) {
+    if ({}.hasOwnProperty.call(votos, pos)) {
+      sortable.push([pos, votos[pos]]);
+    }
+  }
+  sortable.sort(function(a, b) {
+    return a[1] - b[1];
+  });
+  //console.log(sortable);
+  let countP = 0;
+  sortable.forEach((card, p) => {
+    document.getElementById('pos' + p).innerHTML = '<div id="res' + p + '"></div>';
+    document.getElementById('res' + p).innerHTML = '';
+    let img = document.createElement('img');
+    img.src = cards[card[0]];
+    if (card[1] > 0) {
+      document.getElementById('pos' + countP).appendChild(img);
+      document.getElementById('res' + countP).innerHTML = card[1];
+      countP++;
+    }
+  });
+}
+
+function drawNoData() {
+  if (parseInt(document.getElementById('votantes').innerHTML) > 0) {
+    document.getElementById('votantes').innerHTML = 0;
+    document.getElementById('users').innerHTML = '';
+    Object.keys(votos).forEach((el, p)=>{
+      document.getElementById('pos' + p).innerHTML = '';
+    });
+    votos = $baseVotos;
+  }
+}
+
+function drawUsersList() {
+  if (data) {
+    results = getResults();
+    votantes = Object.keys(data).length;
+    document.getElementById('votantes').innerHTML = votantes;
+    document.getElementById('users').innerHTML = '<a href="#GLOBAL" data-user="global" class="active">GLOBAL</a>'
+    if (email === 'manu.fosela@kairosds.com') {
+      document.getElementById('users').innerHTML += usuarios.map((user)=>{
+        // return `<div>${user}</div>`;
+        return `<div><a data-user="${usernameUid[user]}" href="#">${user}</a></div>`;
+      }).join('');
+    } else {
+      document.getElementById('users').innerHTML = '';
+    }
+    document.querySelector('#users').addEventListener('click', getUser);
+    sortResults();
+  } else {
+    drawNoData();
+  }
+}
+
+async function _readDataUser(refBBDD, user) {
+  return new Promise((resolve, reject) => {
+    database.ref(`/usuarios/${refBBDD}/${user}`).on('value', function(snapshot) {
+      //votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+      votos = $baseVotos;
+      usuarios = [];
+      data = snapshot.val();
+      if (Object.keys(data.data).length !== 10) {
+        reject('No hay datos');
       }
-      sortable.sort(function(a, b) {
+      let dataSortable = Object.entries(data.data);
+      dataSortable.sort(function(a, b) {
         return a[1] - b[1];
       });
       //console.log(sortable);
       let countP = 0;
-      sortable.forEach((card, p) => {
+      dataSortable.forEach((card, p) => {
         document.getElementById('pos' + p).innerHTML = '<div id="res' + p + '"></div>';
         document.getElementById('res' + p).innerHTML = '';
         let img = document.createElement('img');
@@ -123,21 +156,62 @@ async function readData(refBBDD) {
           countP++;
         }
       });
-    } else {
-      if (parseInt(document.getElementById('votantes').innerHTML) > 0) {
-        document.getElementById('votantes').innerHTML = 0;
-        document.getElementById('users').innerHTML = '';
-        Object.keys(votos).forEach((el, p)=>{
-          document.getElementById('pos' + p).innerHTML = '';
-        });
-        votos = $baseVotos;
-      }
-    }
+      resolve(); 
+    });
   });
 }
 
-function getUser(uid) {
-  //console.log(data[uid].data);
+async function _readData(refBBDD) {
+  return new Promise((resolve) => {
+    database.ref(`/usuarios/${refBBDD}`).on('value', function(snapshot) {
+      //votos = { "aceptacion": 0, "curiosidad": 0, "estatus": 0, "honra": 0, "libertad": 0, "maestria": 0, "meta": 0, "orden": 0, "poder": 0, "relaciones": 0  };
+      votos = $baseVotos;
+      usuarios = [];
+      data = snapshot.val();
+      if (data) {
+        for (const ob in data) {
+          if (Object.prototype.hasOwnProperty.call(data, ob)) {
+            usernameUid[data[ob].username] = ob;
+          }
+        }
+      }
+      drawUsersList();
+      resolve(); 
+    });
+  });
+}
+
+function drawNoData() {
+  if (parseInt(document.getElementById('votantes').innerHTML) > 0) {
+    Object.keys(votos).forEach((el, p)=>{
+      document.getElementById('pos' + p).innerHTML = '';
+    });
+  }
+}
+
+async function getUser(event) {
+  let uid = event.target.dataset.user;
+  document.querySelector('#users a.active')?.classList.remove('active');
+  event.target.classList.add('active');
+  if (uid === 'global') {
+    await getRefBBDD();
+    await loadResultCards();
+    await _readData($event);
+  } else {
+    await getRefBBDD();
+    await loadResultCards();
+    await _readDataUser($event, uid).catch((error)=>{
+      console.log(error);
+      drawNoData();
+    });
+    console.log(data.data);
+  }
+}
+
+async function readData(refBBDD) {
+  await getRefBBDD();
+  await loadResultCards();
+  await _readData(refBBDD);
 }
 
 let database = firebase.database();
